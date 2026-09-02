@@ -155,9 +155,8 @@ export function HamsterHome() {
           <div className="mt-8 grid items-center gap-8 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
               <p>
-                This character is by Instagram <strong>art by alma / {SITE.artistHandle}</strong> since 2023.
-                Pear-shaped body, tiny head, scribbled eyes, pink nose. That blank face became a
-                reaction image on X, TikTok, and Instagram.
+                The original character was created by Alma (@almarts27). {SITE.name} is an unofficial fan tribute created to celebrate the meme and its community.
+                Pear-shaped body, tiny head, scribbled eyes, pink nose. That blank face has become a recognizable reaction-style character across social media.
               </p>
               <p className="mt-4 text-muted">
                 {SITE.name} puts the meme on-chain on Robinhood Chain (L2, chain ID {SITE.chainId}).
@@ -283,7 +282,7 @@ export function HamsterHome() {
               {
                 n: "4",
                 title: "Hold like a hamster hoarding seeds",
-                body: "Token lands in your wallet. Screenshot PnL. Stare at hamster. Repeat.",
+                body: "Token lands in your wallet. Hold like a hamster hoarding seeds. Stare at hamster. Repeat.",
               },
             ].map((step) => (
               <li key={step.n} className="grid grid-cols-[56px_1fr] gap-4 rounded-xl bg-card p-4 ring-1 ring-border">
