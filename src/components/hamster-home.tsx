@@ -41,6 +41,7 @@ export function HamsterHome() {
   const [networkStatus, setNetworkStatus] = useState<string | null>(null);
 
   async function copyCa() {
+    if (CONTRACT_UNSET) return;
     try {
       await navigator.clipboard.writeText(SITE.contract);
     } catch {
@@ -149,7 +150,7 @@ export function HamsterHome() {
                 <p className="text-xs font-medium uppercase tracking-widest text-muted">Contract</p>
                 <div className="mt-2 flex items-center gap-2">
                   <code className="min-w-0 flex-1 truncate font-mono text-xs">
-                    {CONTRACT_UNSET ? "Posting soon" : SITE.contract}
+                    {CONTRACT_UNSET ? "Contract not posted yet" : SITE.contract}
                   </code>
                   <Button type="button" variant="accent" size="sm" onClick={copyCa}>
                     {copied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
@@ -161,7 +162,7 @@ export function HamsterHome() {
             <div className="grid place-items-center">
               <img
                 src="/hamster.png"
-                alt="$HAMSTER mascot"
+                alt="Hamster doodle"
                 width={420}
                 height={420}
                 className="hamster-bob w-full max-w-md object-contain"
@@ -203,7 +204,7 @@ export function HamsterHome() {
             </div>
             <img
               src="/gallery.jpg"
-              alt="$HAMSTER expressions"
+              alt="Hamster expressions"
               className="w-full rounded-xl bg-card object-cover ring-1 ring-border"
             />
           </div>
@@ -373,7 +374,7 @@ export function HamsterHome() {
               {[
                 {
                   q: `What is ${SITE.name}?`,
-                  a: "A memecoin on Robinhood Chain. The mascot is a blank hamster doodle people already use as a reaction.",
+                  a: "A memecoin on Robinhood Chain. The mascot is a blank hamster doodle. Somehow, people keep using this as a reaction.",
                 },
                 {
                   q: "What chain?",
@@ -457,7 +458,7 @@ export function HamsterHome() {
             ))}
           </div>
           <p className="text-sm text-muted">
-            {SITE.name} is a memecoin. It can go to zero. Not financial advice. Not affiliated with the original artist ({SITE.artistHandle}). Unofficial fan tribute.
+            {SITE.name} is an unofficial fan tribute. Not affiliated with or endorsed by the original artist.
           </p>
         </div>
       </footer>
