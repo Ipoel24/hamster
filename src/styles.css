@@ -30,13 +30,14 @@
 
 @layer base {
   button:not(:disabled),
-  [role="button"]:not(:disabled) {
+  [role="button"]:not(:disabled),
+  label[for="site-menu-toggle"] {
     cursor: pointer;
   }
 
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 7rem;
+    scroll-padding-top: 5.5rem;
     overflow-x: clip;
   }
 
@@ -46,6 +47,14 @@
     font-family: var(--font-sans);
     line-height: 1.55;
   }
+
+  summary {
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -53,8 +62,10 @@
     scroll-behavior: auto;
   }
 
-  .hamster-bob {
+  .hamster-bob,
+  .menu-bars span {
     animation: none !important;
+    transition: none !important;
   }
 }
 
@@ -70,4 +81,53 @@
 
 .hamster-bob {
   animation: bob 3.2s ease-in-out infinite;
+}
+
+.menu-bars {
+  position: relative;
+  display: block;
+  width: 16px;
+  height: 12px;
+}
+
+.menu-bars span {
+  position: absolute;
+  left: 0;
+  height: 1.5px;
+  width: 100%;
+  background: currentColor;
+  transition:
+    transform var(--motion-quick) var(--ease-out),
+    opacity var(--motion-quick) var(--ease-out),
+    top var(--motion-quick) var(--ease-out);
+}
+
+.menu-bars span:nth-child(1) {
+  top: 0;
+}
+.menu-bars span:nth-child(2) {
+  top: 5px;
+}
+.menu-bars span:nth-child(3) {
+  top: 10px;
+}
+
+#site-menu-toggle:checked ~ * .menu-bars span:nth-child(1) {
+  top: 5px;
+  transform: rotate(45deg);
+}
+#site-menu-toggle:checked ~ * .menu-bars span:nth-child(2) {
+  opacity: 0;
+}
+#site-menu-toggle:checked ~ * .menu-bars span:nth-child(3) {
+  top: 5px;
+  transform: rotate(-45deg);
+}
+
+#site-menu {
+  display: none;
+}
+
+#site-menu-toggle:checked ~ #site-menu {
+  display: block;
 }
