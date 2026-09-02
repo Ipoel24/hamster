@@ -13,9 +13,9 @@ const buttonVariants = cva(
         accent: "bg-accent text-accent-fg hover:bg-accent/90",
       },
       size: {
-        md: "h-11 px-5 text-sm rounded-full",
-        sm: "h-9 px-3 text-xs rounded-full",
-        lg: "h-12 px-6 text-base rounded-full",
+        md: "h-11 px-5 text-sm rounded-lg",
+        sm: "h-9 px-3.5 text-xs rounded-lg",
+        lg: "h-12 px-6 text-base rounded-lg",
       },
     },
     defaultVariants: {

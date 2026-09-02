@@ -48,11 +48,12 @@
     line-height: 1.55;
   }
 
-  summary {
+  details > summary {
+    cursor: pointer;
     list-style: none;
   }
 
-  summary::-webkit-details-marker {
+  details > summary::-webkit-details-marker {
     display: none;
   }
 }

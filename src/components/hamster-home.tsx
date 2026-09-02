@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { useState } from "react";
 import { ArrowUpRight, Check, Copy, Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,13 +8,32 @@ import { CONTRACT_UNSET, SITE } from "@/lib/site";
 const NAV = [
   { href: "#about", label: "About" },
   { href: "#tokenomics", label: "Tokenomics" },
-  { href: "#buy", label: "Buy" },
-  { href: "#community", label: "Links" },
+  { href: "#roadmap", label: "Roadmap" },
+  { href: "#buy", label: "How to buy" },
+  { href: "#faq", label: "FAQ" },
 ];
 
 function closeMenu() {
   const toggle = document.getElementById("site-menu-toggle");
   if (toggle instanceof HTMLInputElement) toggle.checked = false;
+}
+
+function SectionHeading({
+  kicker,
+  title,
+  children,
+}: {
+  kicker: string;
+  title: string;
+  children?: ReactNode;
+}) {
+  return (
+    <div className="max-w-2xl">
+      <p className="text-xs font-semibold uppercase tracking-widest text-muted">{kicker}</p>
+      <h2 className="mt-2 font-display text-3xl font-semibold tracking-tight sm:text-4xl">{title}</h2>
+      {children ? <p className="mt-3 text-muted">{children}</p> : null}
+    </div>
+  );
 }
 
 export function HamsterHome() {
@@ -58,7 +78,7 @@ export function HamsterHome() {
               alt=""
               width={36}
               height={36}
-              className="size-9 shrink-0 rounded-full border border-border bg-card object-contain"
+              className="size-9 shrink-0 rounded-lg border border-border bg-card object-contain"
             />
             {SITE.name}
           </a>
@@ -70,7 +90,7 @@ export function HamsterHome() {
             </Button>
             <label
               htmlFor="site-menu-toggle"
-              className="grid size-12 place-items-center rounded-full border border-border bg-card text-fg"
+              className="grid size-11 place-items-center rounded-lg border border-border bg-card text-fg"
               aria-label="Open menu"
             >
               <span className="menu-bars">
@@ -99,196 +119,232 @@ export function HamsterHome() {
 
       <main>
         <section id="home" className="scroll-mt-20">
-          <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 pt-10 pb-12 sm:px-6 lg:grid-cols-2 lg:pt-16 lg:pb-20">
+          <div className="mx-auto grid max-w-6xl items-center gap-12 px-4 pt-12 pb-10 sm:px-6 lg:grid-cols-2 lg:pt-20 lg:pb-16">
             <div>
-              <p className="mb-4 text-sm text-muted">
-                Art by {SITE.artistHandle} · on Robinhood Chain
+              <p className="text-xs font-semibold uppercase tracking-widest text-muted">
+                Memecoin · Robinhood Chain
               </p>
-              <h1 className="font-display text-[clamp(3rem,11vw,6.4rem)] leading-[0.9] font-semibold tracking-[-0.04em]">
+              <h1 className="mt-4 font-display text-[clamp(3rem,10vw,6rem)] leading-[0.9] font-semibold tracking-[-0.04em]">
                 JUST A
                 <br />
                 <span className="text-accent">HAMSTER.</span>
               </h1>
-              <p className="mt-5 max-w-xl text-lg text-muted">
-                Blank face. Pink nose. No utility. That’s the coin.
+              <p className="mt-6 max-w-lg text-lg text-muted">
+                Fair launch. Zero tax. Liquidity burned. Ownership renounced. Blank face, pink nose — that’s the whole product.
               </p>
-              <div className="mt-7 flex flex-wrap gap-3">
+              <div className="mt-8 flex flex-wrap gap-3">
                 <Button asChild size="lg">
                   <a href={SITE.uniswapUrl} target="_blank" rel="noreferrer">
-                    Swap on Uniswap
+                    Buy on Uniswap
                     <ArrowUpRight className="size-4" />
                   </a>
                 </Button>
                 <Button asChild variant="ghost" size="lg">
-                  <a href={SITE.artistUrl} target="_blank" rel="noreferrer">
-                    Alma’s Instagram
+                  <a href={SITE.explorer} target="_blank" rel="noreferrer">
+                    View explorer
                   </a>
                 </Button>
               </div>
-              <div className="mt-6 flex max-w-xl items-center gap-2 rounded-xl border border-dashed border-accent/50 bg-card px-3 py-2.5">
-                <code className="min-w-0 flex-1 truncate font-mono text-xs text-muted">
-                  {CONTRACT_UNSET ? "Contract not posted yet" : SITE.contract}
-                </code>
-                <Button type="button" variant="accent" size="sm" onClick={copyCa}>
-                  {copied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
-                  {copied ? "Copied" : "Copy"}
-                </Button>
+              <div className="mt-6 max-w-xl rounded-lg border border-border bg-card p-3">
+                <p className="text-xs font-medium uppercase tracking-widest text-muted">Contract</p>
+                <div className="mt-2 flex items-center gap-2">
+                  <code className="min-w-0 flex-1 truncate font-mono text-xs">
+                    {CONTRACT_UNSET ? "Posting soon" : SITE.contract}
+                  </code>
+                  <Button type="button" variant="accent" size="sm" onClick={copyCa}>
+                    {copied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
+                    {copied ? "Copied" : "Copy"}
+                  </Button>
+                </div>
               </div>
             </div>
-            <div className="relative grid place-items-center">
-              <img
-                src="/alma-smile.jpg"
-                alt=""
-                className="absolute top-0 -left-2 z-0 hidden w-24 -rotate-6 rounded-xl object-cover ring-1 ring-border lg:block"
-              />
-              <img
-                src="/alma-shock.jpg"
-                alt=""
-                className="absolute right-0 -bottom-2 z-0 hidden w-24 rotate-6 rounded-xl object-cover ring-1 ring-border lg:block"
-              />
+            <div className="grid place-items-center">
               <img
                 src="/hamster.png"
-                alt="Hamster doodle by Almarts27"
+                alt="$HAMSTER mascot"
                 width={420}
                 height={420}
-                className="hamster-bob relative z-10 w-full max-w-md object-contain"
+                className="hamster-bob w-full max-w-md object-contain"
               />
-              <div className="absolute right-4 bottom-4 z-20 hidden rotate-6 rounded-md border-2 border-fg bg-card px-2.5 py-1.5 text-[11px] font-semibold leading-tight text-fg sm:block">
-                ROBINHOOD
-                <br />
-                CHAIN
-              </div>
             </div>
+          </div>
+          <div className="border-y border-border">
+            <dl className="mx-auto grid max-w-6xl grid-cols-2 sm:grid-cols-4">
+              {[
+                { dt: "Supply", dd: SITE.supply },
+                { dt: "Tax", dd: "0 / 0" },
+                { dt: "Liquidity", dd: "Burned" },
+                { dt: "Network", dd: SITE.chain },
+              ].map((item, i) => (
+                <div
+                  key={item.dt}
+                  className={`px-4 py-5 sm:px-6 ${i > 0 ? "border-t border-border sm:border-t-0 sm:border-l" : ""} ${i === 1 ? "border-l" : ""}`}
+                >
+                  <dt className="text-xs font-medium uppercase tracking-widest text-muted">{item.dt}</dt>
+                  <dd className="mt-1 font-display text-lg font-semibold">{item.dd}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
         </section>
 
-        <section id="about" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-16 sm:px-6">
-          <h2 className="font-display text-3xl font-semibold tracking-tight sm:text-4xl">
-            Alma drew this.
-          </h2>
-          <div className="mt-8 grid items-center gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-            <div>
-              <p>
+        <section id="about" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-20 sm:px-6">
+          <SectionHeading kicker="About" title={`What ${SITE.name} is`}>
+            A reaction meme on-chain. Nothing else.
+          </SectionHeading>
+          <div className="mt-10 grid items-start gap-10 lg:grid-cols-2">
+            <div className="space-y-4 text-muted">
+              <p className="text-fg">
                 The original character was created by Alma (@almarts27). {SITE.name} is an unofficial fan tribute created to celebrate the meme and its community.
               </p>
-              <p className="mt-4">
+              <p className="text-fg">
                 That blank face has become a recognizable reaction-style character across social media.
               </p>
-              <div className="mt-5 flex items-center gap-3 rounded-xl bg-card p-3 ring-1 ring-border">
-                <img
-                  src="/hamster.png"
-                  alt=""
-                  width={48}
-                  height={48}
-                  className="size-12 rounded-full bg-bg-elevated object-contain"
-                />
-                <p className="text-sm">
-                  Art belongs to{" "}
-                  <a className="font-semibold text-accent underline-offset-2 hover:underline" href={SITE.artistUrl} target="_blank" rel="noreferrer">
-                    {SITE.artistHandle}
-                  </a>
-                  . This page is a fan tribute. Follow her.
-                </p>
-              </div>
             </div>
             <img
               src="/gallery.jpg"
-              alt="Almarts27 hamster expressions"
-              className="w-full rounded-2xl bg-card object-cover ring-1 ring-border"
+              alt="$HAMSTER expressions"
+              className="w-full rounded-xl bg-card object-cover ring-1 ring-border"
             />
           </div>
         </section>
 
-        <section className="border-y border-border">
-          <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
-            <p className="font-display max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl">
-              Green candle. Red candle. Same face.
-            </p>
-            <p className="mt-4 max-w-lg text-muted">
-              The nose is pink. Everything else is the stare. People already drop this as a reaction.
-            </p>
-            <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <section className="border-y border-border bg-card">
+          <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+            <SectionHeading kicker="Gallery" title="Same face. Every candle.">
+              Green candle. Red candle. The hamster does not care.
+            </SectionHeading>
+            <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
               {[
-                { src: "/alma-sleep.jpg", alt: "Hamster sleeping, art by Alma" },
-                { src: "/alma-eat.jpg", alt: "Hamster eating, art by Alma" },
-                { src: "/alma-shock.jpg", alt: "Hamster shocked, art by Alma" },
-                { src: "/alma-cry.jpg", alt: "Hamster crying, art by Alma" },
+                { src: "/alma-sleep.jpg", alt: "Hamster sleeping" },
+                { src: "/alma-eat.jpg", alt: "Hamster eating" },
+                { src: "/alma-shock.jpg", alt: "Hamster shocked" },
+                { src: "/alma-cry.jpg", alt: "Hamster crying" },
               ].map((face) => (
                 <img
                   key={face.src}
                   src={face.src}
                   alt={face.alt}
-                  className="aspect-square w-full rounded-xl bg-card object-contain ring-1 ring-border"
+                  className="aspect-square w-full rounded-lg bg-bg object-contain ring-1 ring-border"
                 />
               ))}
             </div>
           </div>
         </section>
 
-        <section id="tokenomics" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-16 sm:px-6">
-          <h2 className="font-display text-3xl font-semibold tracking-tight sm:text-4xl">
-            Tokenomics
-          </h2>
-          <p className="mt-2 max-w-xl text-muted">
-            1 billion. Zero tax. LP burned. Renounced. No presale.
-          </p>
-          <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-4">
+        <section id="tokenomics" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-20 sm:px-6">
+          <SectionHeading kicker="Tokenomics" title="The numbers">
+            Fixed supply. No team allocation. Check the explorer when the contract is live.
+          </SectionHeading>
+          <div className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-4">
             {[
-              { value: SITE.supply, label: "Supply" },
-              { value: "0 / 0", label: "Tax" },
-              { value: "Burned", label: "LP" },
-              { value: "Renounced", label: "Owner" },
+              { value: SITE.supply, label: "Total supply" },
+              { value: "0 / 0", label: "Buy / sell tax" },
+              { value: "Burned", label: "Liquidity" },
+              { value: "Renounced", label: "Ownership" },
             ].map((stat) => (
-              <div key={stat.label} className="rounded-xl bg-card px-4 py-5 text-center ring-1 ring-border">
-                <b className="font-display text-xl font-semibold">{stat.value}</b>
-                <div className="mt-1 text-sm text-muted">{stat.label}</div>
+              <div key={stat.label} className="rounded-lg bg-card px-4 py-6 ring-1 ring-border">
+                <b className="font-display text-2xl font-semibold">{stat.value}</b>
+                <div className="mt-2 text-sm text-muted">{stat.label}</div>
               </div>
             ))}
           </div>
+          <dl className="mt-3 grid gap-3 sm:grid-cols-3">
+            <div className="rounded-lg bg-card p-5 ring-1 ring-border">
+              <dt className="text-xs font-medium uppercase tracking-widest text-muted">Network</dt>
+              <dd className="mt-2 font-medium">{SITE.chain}</dd>
+              <dd className="mt-1 font-mono text-sm text-muted">Chain ID {SITE.chainId}</dd>
+            </div>
+            <div className="rounded-lg bg-card p-5 ring-1 ring-border">
+              <dt className="text-xs font-medium uppercase tracking-widest text-muted">Market</dt>
+              <dd className="mt-2 font-medium">Uniswap</dd>
+              <dd className="mt-1 text-sm text-muted">Gas token {SITE.currency}</dd>
+            </div>
+            <div className="rounded-lg bg-card p-5 ring-1 ring-border">
+              <dt className="text-xs font-medium uppercase tracking-widest text-muted">Launch</dt>
+              <dd className="mt-2 font-medium">Fair launch</dd>
+              <dd className="mt-1 text-sm text-muted">No presale. No whitelist.</dd>
+            </div>
+          </dl>
         </section>
 
-        <section id="buy" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-16 sm:px-6">
-          <h2 className="font-display text-3xl font-semibold tracking-tight sm:text-4xl">
-            Buy it
-          </h2>
-          <p className="mt-2 max-w-xl text-muted">
-            Wallet, ETH on chain {SITE.chainId}, then Uniswap.
-          </p>
-          <ol className="mt-8 grid gap-3">
+        <section id="roadmap" className="border-y border-border bg-card">
+          <div className="mx-auto max-w-6xl scroll-mt-20 px-4 py-20 sm:px-6">
+            <SectionHeading kicker="Roadmap" title="What happens next">
+              No 2029 metaverse slide. Four things, in order.
+            </SectionHeading>
+            <ol className="mt-10 grid gap-3 md:grid-cols-2">
+              {[
+                {
+                  n: "01",
+                  title: "Launch",
+                  body: "Token live on Robinhood Chain. LP burned. Ownership renounced. Contract posted on this page.",
+                },
+                {
+                  n: "02",
+                  title: "Chart and chat",
+                  body: "Uniswap and explorer first. Dexscreener when it indexes. X and Telegram with the launch.",
+                },
+                {
+                  n: "03",
+                  title: "Stickers",
+                  body: "The hamster already lives in comments. More doodles, same blank face.",
+                },
+                {
+                  n: "04",
+                  title: "Stay a hamster",
+                  body: "No CEX promises. If the meme dies, the coin dies. That’s the deal.",
+                },
+              ].map((step) => (
+                <li key={step.n} className="rounded-lg bg-bg p-5 ring-1 ring-border">
+                  <span className="font-mono text-xs text-muted">{step.n}</span>
+                  <strong className="mt-2 block">{step.title}</strong>
+                  <p className="mt-1 text-sm text-muted">{step.body}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        <section id="buy" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-20 sm:px-6">
+          <SectionHeading kicker="Buy" title="How to buy">
+            Robinhood Wallet, or any EVM wallet. You need a little ETH on chain {SITE.chainId} for gas.
+          </SectionHeading>
+          <ol className="mt-10 grid gap-3">
             {[
               {
                 n: "1",
                 title: "Wallet",
-                body: "Robinhood Wallet already has the chain. MetaMask or Rabby: add it.",
+                body: "Robinhood Wallet already supports this chain. MetaMask or Rabby: use Add network below.",
               },
               {
                 n: "2",
-                title: "ETH for gas",
-                body: "Bridge a little ETH over. You need it to swap.",
+                title: "Bridge ETH",
+                body: "Move a little ETH to Robinhood Chain and keep some for gas.",
               },
               {
                 n: "3",
-                title: "Swap",
-                body: `Uniswap → Robinhood Chain → paste the ${SITE.name} contract.`,
+                title: `Swap ${SITE.name}`,
+                body: "Uniswap → Robinhood Chain → paste the contract. Start slippage at 1–3%.",
               },
               {
                 n: "4",
-                title: "Then sit",
+                title: "Hold",
                 body: "Token lands in your wallet. Hold like a hamster hoarding seeds. Stare at hamster. Repeat.",
               },
             ].map((step) => (
-              <li key={step.n} className="grid grid-cols-[56px_1fr] gap-4 rounded-xl bg-card p-4 ring-1 ring-border">
-                <div className="grid size-14 place-items-center rounded-lg bg-accent/25 font-display text-xl font-semibold">
+              <li key={step.n} className="grid grid-cols-[48px_1fr] items-start gap-4 rounded-lg bg-card p-5 ring-1 ring-border">
+                <div className="grid size-12 place-items-center rounded-lg bg-fg font-display text-lg font-semibold text-bg">
                   {step.n}
                 </div>
                 <div>
                   <strong>{step.title}</strong>
-                  <p className="text-sm text-muted">{step.body}</p>
+                  <p className="mt-1 text-sm text-muted">{step.body}</p>
                 </div>
               </li>
             ))}
           </ol>
-          <div className="mt-6 flex flex-wrap gap-3">
+          <div className="mt-8 flex flex-wrap gap-3">
             <Button asChild>
               <a href={SITE.uniswapUrl} target="_blank" rel="noreferrer">
                 Open Uniswap
@@ -310,14 +366,58 @@ export function HamsterHome() {
           ) : null}
         </section>
 
-        <section id="community" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-16 sm:px-6">
-          <h2 className="font-display text-3xl font-semibold tracking-tight">Links</h2>
-          <div className="mt-6 flex flex-wrap items-center gap-3">
-            <img src="/alma-sleep.jpg" alt="" className="size-14 rounded-xl object-contain ring-1 ring-border" />
-            <img src="/alma-eat.jpg" alt="" className="size-14 rounded-xl object-contain ring-1 ring-border" />
-            <img src="/alma-smile.jpg" alt="" className="size-14 rounded-xl object-contain ring-1 ring-border" />
+        <section id="faq" className="border-y border-border bg-card">
+          <div className="mx-auto max-w-6xl scroll-mt-20 px-4 py-20 sm:px-6">
+            <SectionHeading kicker="FAQ" title="Common questions" />
+            <div className="mt-10 divide-y divide-border rounded-lg bg-bg ring-1 ring-border">
+              {[
+                {
+                  q: `What is ${SITE.name}?`,
+                  a: "A memecoin on Robinhood Chain. The mascot is a blank hamster doodle people already use as a reaction.",
+                },
+                {
+                  q: "What chain?",
+                  a: `${SITE.chain}. Chain ID ${SITE.chainId}. Gas token is ${SITE.currency}. Swap on Uniswap.`,
+                },
+                {
+                  q: "Is there tax?",
+                  a: "0% buy, 0% sell. If a fake contract shows tax, you are on the wrong address.",
+                },
+                {
+                  q: "Is there a team wallet?",
+                  a: "No presale, no team allocation. LP burned. Ownership renounced. Verify on the explorer when the CA is live.",
+                },
+                {
+                  q: "Where is the contract?",
+                  a: CONTRACT_UNSET
+                    ? "Not posted yet. When it is, it will sit in the contract bar at the top of this page. Do not buy a random hamster token."
+                    : SITE.contract,
+                },
+                {
+                  q: "Does this have utility?",
+                  a: "No. If you need utility, buy something else.",
+                },
+              ].map((item) => (
+                <details key={item.q} className="group px-5">
+                  <summary className="flex items-center justify-between gap-4 py-4 font-medium">
+                    {item.q}
+                    <span className="shrink-0 text-muted" aria-hidden="true">
+                      <span className="group-open:hidden">+</span>
+                      <span className="hidden group-open:inline">−</span>
+                    </span>
+                  </summary>
+                  <p className="pb-4 text-sm text-muted">{item.a}</p>
+                </details>
+              ))}
+            </div>
           </div>
-          <div className="mt-6 flex flex-wrap gap-3">
+        </section>
+
+        <section id="community" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-20 sm:px-6">
+          <SectionHeading kicker="Community" title="Links">
+            Chart, chat, explorer. X and Telegram go live with the launch.
+          </SectionHeading>
+          <div className="mt-8 flex flex-wrap gap-3">
             <Button asChild variant="ghost">
               <a href={SITE.twitterUrl}>X</a>
             </Button>
@@ -325,33 +425,41 @@ export function HamsterHome() {
               <a href={SITE.telegramUrl}>Telegram</a>
             </Button>
             <Button asChild variant="ghost">
-              <a href={SITE.artistUrl} target="_blank" rel="noreferrer">
-                Alma on IG
-              </a>
-            </Button>
-            <Button asChild variant="ghost">
               <a href={SITE.explorer} target="_blank" rel="noreferrer">
                 Explorer
               </a>
             </Button>
+            <Button asChild variant="ghost">
+              <a href={SITE.uniswapUrl} target="_blank" rel="noreferrer">
+                Uniswap
+              </a>
+            </Button>
+            <Button asChild variant="ghost">
+              <a href={SITE.artistUrl} target="_blank" rel="noreferrer">
+                Artist IG
+              </a>
+            </Button>
           </div>
-          <p className="mt-8 text-sm text-muted">
-            {SITE.name} can go to zero. Not financial advice. Not affiliated with Alma ({SITE.artistHandle}).
-            Art belongs to{" "}
-            <a className="font-semibold text-accent hover:underline" href={SITE.artistUrl} target="_blank" rel="noreferrer">
-              {SITE.artistHandle}
-            </a>
-            . Unofficial fan tribute.
-          </p>
         </section>
       </main>
 
-      <footer className="px-4 py-12 text-center text-sm text-muted">
-        <img src="/hamster.png" alt="" width={56} height={56} className="mx-auto mb-3 size-14 object-contain" />
-        {SITE.name} · just a hamster · Robinhood Chain · art by{" "}
-        <a className="text-accent hover:underline" href={SITE.artistUrl} target="_blank" rel="noreferrer">
-          {SITE.artistHandle}
-        </a>
+      <footer className="border-t border-border">
+        <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:grid-cols-3 sm:px-6">
+          <div>
+            <p className="font-display text-lg font-semibold">{SITE.name}</p>
+            <p className="mt-2 text-sm text-muted">Just a hamster. Robinhood Chain.</p>
+          </div>
+          <div className="flex flex-col gap-2 text-sm">
+            {NAV.map((item) => (
+              <a key={item.href} href={item.href} className="text-muted hover:text-fg">
+                {item.label}
+              </a>
+            ))}
+          </div>
+          <p className="text-sm text-muted">
+            {SITE.name} is a memecoin. It can go to zero. Not financial advice. Not affiliated with the original artist ({SITE.artistHandle}). Unofficial fan tribute.
+          </p>
+        </div>
       </footer>
     </div>
   );

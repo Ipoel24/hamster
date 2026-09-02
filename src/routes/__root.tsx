@@ -14,7 +14,7 @@ export const Route = createRootRoute({
       {
         name: "description",
         content:
-          "The blankest hamster doodle on the internet, art by @almarts27. Live on Robinhood Chain.",
+          "$HAMSTER — memecoin on Robinhood Chain. Fair launch, zero tax, just a hamster.",
       },
       { name: "theme-color", content: "#F6F1EA" },
     ],
